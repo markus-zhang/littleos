@@ -51,4 +51,10 @@ prints(char *buf, unsigned int len);
 long
 get_string_len(char *buf);
 
+void
+printul(unsigned long v);
+
+void
+printuc(unsigned char v);
+
 #endif

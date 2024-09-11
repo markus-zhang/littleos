@@ -66,12 +66,22 @@ kmain()
     // prints(buf_long, length - 1);
     // --------------------------- END TEST prints()
 
+    
+    
     // BEGIN TEST serial port ---------------------------
-    for (int i = 0; i < 20; i++)
-    {
-        test_serial();
-    }
+    // for (int i = 0; i < 20; i++)
+    // {
+    //     test_serial();
+    // }
     // --------------------------- END TEST serial port
+
+
+
+
+    // BEGIN TEST print integer functions -------------------------
+    unsigned long v = 123456;
+    printul(v);
+    // --------------------------- END TEST print integer functions
 
     return 0;
 }

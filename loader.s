@@ -21,7 +21,7 @@ kernel_stack:                               ; label of beginning of memory
 
 loader:                                     ; the loader label (entry point in linker script)
     mov eax, 0xCAFEBABE                     ; place the number 0xCAFEBABE in the register eax
-    mov esp, kernel_stack + KERNEL_STACK    ; esp points to the end of stack (grows backwards)
+    mov esp, kernel_stack + KERNEL_STACK - 4; esp points to the end of stack (grows backwards)
     
     ;push dword 3
     ;push dword 2

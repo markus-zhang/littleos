@@ -78,8 +78,11 @@ set_cursor_offset(int row, int column)
     outb(0x3D5, high);
     outb(0x3D4, 15);
     outb(0x3D5, low);
+    cursor_offset = offset;
 }
 
+// set_cursor() actually just show cursor at cursor_offset
+// TODO: rename this function
 void
 set_cursor()
 {
@@ -139,14 +142,16 @@ fb_write_cell(char* fb, int i, char c, unsigned char fg, unsigned char bg)
 
 // print a char at cursor
 // Get the offset from high and low, and then 
-// TODO: Should I move the cursor too?
+// TODO: Scroll screen up if offset is "overflowed"
 int 
 printk(char c)
 {
-    cursor_offset = get_cursor_offset();
+    // cursor_offset = get_cursor_offset();
     char* fb = (char *) VGA_ADDRESS;
 
     fb_write_cell(fb, cursor_offset * 2, c, COLOR_BLACK, COLOR_WHITE);
+    cursor_offset ++;
+    set_cursor();
 
     return 0;
 }
@@ -211,4 +216,51 @@ get_string_len(char *buf)
         len++;
     }
     return len;
+}
+
+/** Print an unsigned long at cursor
+*   v is between 0 and 0xFF(255)
+*/
+// int
+// printul(unsigned long v)
+// {
+//     unsigned long div = 10;
+//     unsigned long d = v / div;
+//     unsigned long r = v - d * div;
+//     // Largest unsigned long < 10^19
+//     char temp[19];
+//     unsigned char count = 0;
+
+//     while (1)
+//     {
+//         temp[count] = 
+//     }
+// }
+
+void
+printul(unsigned long v)
+{
+    unsigned long div = 10;
+    unsigned char temp[19];
+    int i = 0;
+    for (; v != 0; i++)
+    {
+        unsigned long d = v / div;
+        unsigned char r = v % div;
+        temp[i] = r;
+        v = d;
+    }
+
+    // i got one extra value
+    i --;
+    for (; i >= 0; i--)
+    {
+        printuc(temp[i]);
+    }
+}
+
+void
+printuc(unsigned char v)
+{
+    printk(v + '0');
 }
